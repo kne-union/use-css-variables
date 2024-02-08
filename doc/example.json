@@ -1,0 +1,20 @@
+{
+  "isFull": false,
+  "list": [
+    {
+      "title": "这里填写示例标题",
+      "description": "点击按钮css var var(--component-height)增加10px",
+      "code": "./base.js",
+      "scope": [
+        {
+          "name": "UseCssVariables",
+          "packageName": "@kne/use-css-variables"
+        },
+        {
+          "name": "antd",
+          "packageName": "antd"
+        }
+      ]
+    }
+  ]
+}

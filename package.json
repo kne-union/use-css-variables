@@ -3,16 +3,41 @@
   "version": "0.1.1",
   "description": "css-variables的react的hooks",
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "jsnext:main": "dist/index.es.js",
-  "umd:min": "dist/use-css-variables.min.js",
-  "umd": "dist/use-css-variables.js",
+  "module": "dist/index.modern.js",
+  "source": "src/index.js",
+  "syntax": {
+    "esmodules": true
+  },
   "scripts": {
-    "build": "rollup -c"
+    "init-example": "modules-dev-libs-init",
+    "start": "run-p start:lib start:example",
+    "build": "run-s build:lib build:example",
+    "build:lib": "microbundle --no-compress --format modern,cjs --jsx React.createElement",
+    "start:lib": "microbundle watch --no-compress --format modern,cjs --jsx React.createElement",
+    "test": "run-s test:unit test:lint test:build",
+    "test:build": "run-s build",
+    "test:lint": "eslint .",
+    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:watch": "react-scripts test --env=jsdom",
+    "build:example": "cd example && npm run build",
+    "start:example": "cd example && npm run start",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kne-union/use-css-variables.git"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss}": [
+      "prettier --config .prettierrc --write",
+      "git add"
+    ]
   },
   "files": [
     "dist"
@@ -28,23 +53,25 @@
     "url": "https://github.com/kne-union/use-css-variables/issues"
   },
   "homepage": "https://github.com/kne-union/use-css-variables#readme",
-  "peerDependencies": {
-    "construct-style-sheets-polyfill": "^2.4.0"
-  },
   "dependencies": {
+    "@babel/runtime": "^7.23.9",
+    "construct-style-sheets-polyfill": "^2.4.0",
     "lodash": "^4.17.15"
   },
+  "peerDependencies": {
+    "prop-types": ">=15.x",
+    "react": ">=18.x",
+    "react-dom": ">=18.x"
+  },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.7.6",
-    "@babel/preset-env": "^7.7.7",
-    "@rollup/plugin-json": "^4.0.3",
-    "babel-preset-react-app": "^9.1.0",
-    "rollup": "^1.27.14",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-css-bundle": "^1.0.4",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.2",
-    "rollup-plugin-terser": "^5.3.0"
+    "@kne/microbundle": "^0.15.5",
+    "@kne/modules-dev": "^2.0.6",
+    "antd": "^5.14.0",
+    "husky": "^9.0.10",
+    "lint-staged": "^15.2.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.2.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
